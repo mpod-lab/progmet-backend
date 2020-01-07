@@ -13,7 +13,8 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res, next) => {
     let furniture = req.body;
-    let sql = "INSERT INTO meble VALUES ?"
+    let sql = 'INSERT INTO `meble` (`ID`, `category_ID`, `name`, `description`, `width`, `height`, `depth`, `doors`, `drawer`, `format`, `tag`) VALUES ?'
+    //INSERT INTO `meble` (`ID`, `category_ID`, `name`, `description`, `width`, `height`, `depth`, `doors`, `drawer`, `format`, `tag`) VALUES ('', '1', 'Biurko dziecięce', 'Dla najmłodszych', '10', '20', '30', '0', '1', '', 'Szkoła');
     mysqlConnection.query(sql, [furniture], (err, rows, fields) => {
         if (!err)
             res.send(rows);
@@ -21,6 +22,17 @@ router.post("/", (req, res, next) => {
             console.log(err);
     })
 })
+
+router.delete("/:id", (req, res) => {
+    let description = req.params.id;
+    let sql = 'DELETE FROM `meble` WHERE `meble`.`ID` =?';
+    mysqlConnection.query(sql, [description], (err, rows, fields) => {
+        if (!err)
+            res.send(rows);
+        else
+            console.log(err);
+    })
+});
 
 
 module.exports = router;
